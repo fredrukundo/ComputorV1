@@ -1,3 +1,5 @@
+# Reduce equation to = 0
+
 def reduce_equation(left, right):
     result = dict(left)
 
