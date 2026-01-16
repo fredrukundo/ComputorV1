@@ -1,3 +1,5 @@
+# Math tools we are allowed to use
+
 def abs_val(x):
     return x if x >= 0 else -x
 
