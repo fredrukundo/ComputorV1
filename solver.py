@@ -1,7 +1,5 @@
 from math_utils import sqrt_newton, to_fraction
 
-# Solving the equation
-
 def solve_degree_0(c):
     if c == 0:
         return "Any real number is a solution."
