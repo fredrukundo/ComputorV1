@@ -3,7 +3,6 @@ from parser import parse_side
 from reducer import reduce_equation, polynomial_degree, format_reduced
 from solver import solve_degree_0, solve_degree_1, solve_degree_2
 
-# Program entry point
 
 def main():
     if len(sys.argv) != 2:
@@ -51,4 +50,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-# end of a file here
