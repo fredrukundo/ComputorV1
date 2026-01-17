@@ -17,8 +17,8 @@ def solve_degree_2(a, b, c):
 
     if delta > 0:
         sqrt_d = sqrt_newton(delta)
-        x1 = (-b + sqrt_d) / (2 * a)
-        x2 = (-b - sqrt_d) / (2 * a)
+        x1 = (-b - sqrt_d) / (2 * a)
+        x2 = (-b + sqrt_d) / (2 * a)
         return (
             "Discriminant is strictly positive, the two solutions are:\n"
             f"{x1}\n{x2}"
