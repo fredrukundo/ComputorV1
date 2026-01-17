@@ -1,19 +1,32 @@
-# this file is for parsing the string.
 """
-    "5 * X^0 + 4 * X^1"
-        ↓
-    {0: 5, 1: 4}
+Parser utilities for polynomial expressions.
+
+Example:
+    Input:
+        "5 * X^0 + 4 * X^1"
+    Output:
+        {0: 5, 1: 4}
 """
+
 
 def normalize(expr):
     """
-        Removes spaces
-        Converts - into +- to simplify splitting
+    Normalize a polynomial expression string.
 
-        Example:
-            "5 - 3*X^1"
-            → "5+-3*X^1"
-        This allows safe splitting by "+"
+    - Removes all spaces
+    - Converts subtraction into addition of negative terms
+
+    This transformation allows safe splitting using '+'.
+
+    Args:
+        expr (str): Polynomial expression as a string.
+
+    Returns:
+        str: Normalized expression.
+
+    Example:
+        "5 - 3*X^1"
+        → "5+-3*X^1"
     """
     expr = expr.replace(" ", "")
     expr = expr.replace("-", "+-")
@@ -24,19 +37,25 @@ def normalize(expr):
 
 def parse_term(term):
     """
-        Handles missing coefficients
-        Handles missing powers
-        Handles constants
+    Parse a single polynomial term.
 
-        Example:
-            "4*X^2" → (4.0, 2)
-            "-X"    → (-1.0, 1)
-            "5"     → (5.0, 0)
+    Handles:
+        - Constants (e.g. "5")
+        - Missing coefficients (e.g. "X", "-X")
+        - Missing powers (e.g. "3*X")
 
-        Return:
-            (coefficient, power)
+    Args:
+        term (str): A single polynomial term.
+
+    Returns:
+        tuple[float, int]: (coefficient, power)
+
+    Examples:
+        "4*X^2" → (4.0, 2)
+        "-X"    → (-1.0, 1)
+        "X"     → (1.0, 1)
+        "5"     → (5.0, 0)
     """
-
     if "X" not in term:
         return float(term), 0
 
@@ -55,16 +74,24 @@ def parse_term(term):
 
 def parse_side(expr):
     """
-        - Parse one side of the equation
-        - Return polynomial dictionary
+    Parse one side of a polynomial equation.
 
-        example:
-            "5 + 4*X - X^2"
-            → {0: 5, 1: 4, 2: -1}
+    Steps:
+        1. Normalize expression
+        2. Split into individual terms
+        3. Parse each term
+        4. Merge terms with the same power
 
-        Normalize, Split into terms, Parse each term and Merge same powers
+    Args:
+        expr (str): One side of the equation.
+
+    Returns:
+        dict[int, float]: Polynomial represented as {power: coefficient}
+
+    Example:
+        "5 + 4*X - X^2"
+        → {0: 5, 1: 4, 2: -1}
     """
-
     terms = normalize(expr).split("+")
     poly = {}
 
