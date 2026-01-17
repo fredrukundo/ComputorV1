@@ -2,10 +2,22 @@
 
 def reduce_equation(left, right):
     """
-        purpose:
-            left  = {power: coefficient}
-            right = {power: coefficient}
-        then: left - right = 0
+    Reduce a polynomial equation to a single polynomial equal to zero.
+
+    Computes:
+        left - right = 0
+
+    Args:
+        left (dict[int, float]): Left side polynomial {power: coefficient}
+        right (dict[int, float]): Right side polynomial {power: coefficient}
+
+    Returns:
+        dict[int, float]: Reduced polynomial with all powers filled,
+                          including zero coefficients if necessary.
+
+    Notes:
+        - Coefficients close to zero are removed (floating-point safety)
+        - If all terms cancel, returns {0: 0.0}
     """
     result = dict(left)
 
@@ -29,22 +41,36 @@ def reduce_equation(left, right):
 
 
 def polynomial_degree(poly):
-
     """
-        Return the highest power present
+    Compute the degree of a polynomial.
 
-        ex: {0: 4, 1: 4, 2: -9.3} → 2
+    Args:
+        poly (dict[int, float]): Polynomial {power: coefficient}
+
+    Returns:
+        int: Highest power present in the polynomial.
+
+    Example:
+        {0: 4, 1: 4, 2: -9.3} → 2
     """
     return max(poly.keys())
 
 
 def format_number(n):
     """
-        for displaying expected output format
+    Format a number for display.
 
-        ex:
-            4.0 = "4"
-            -9.3 = "-9.3"
+    Converts floats that represent integers into integer strings.
+
+    Args:
+        n (float): Number to format.
+
+    Returns:
+        str: Formatted number as a string.
+
+    Examples:
+        4.0   → "4"
+        -9.3  → "-9.3"
     """
     if abs(n - int(n)) < 1e-10:
         return str(int(n))
@@ -52,6 +78,19 @@ def format_number(n):
 
 
 def format_reduced(poly):
+    """
+    Format a reduced polynomial for display.
+
+    Args:
+        poly (dict[int, float]): Reduced polynomial {power: coefficient}
+
+    Returns:
+        str: Human-readable reduced form ending with '= 0'.
+
+    Example:
+        {0: 4, 1: 4, 2: -9.3}
+        → "4 * X^0 + 4 * X^1 - 9.3 * X^2 = 0"
+    """
     parts = []
 
     for power in sorted(poly.keys()):
@@ -68,4 +107,3 @@ def format_reduced(poly):
         parts[0] = parts[0][2:]
 
     return " ".join(parts) + " = 0"
-
