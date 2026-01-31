@@ -5,76 +5,23 @@
 #     {0: 5, 1: 4}
 # """
 
-# def normalize(expr):
-#     """
-#         Removes spaces
-#         Converts - into +- to simplify splitting
+def insert_implicit_mul(expr: str) -> str:
+    """
+    Turn implicit number-variable multiplication into explicit '*':
+      "2X" -> "2*X"
+      "-3.5X" -> "-3.5*X"
+    Minimal: only handles number immediately followed by X.
+    """
+    s = expr.replace(" ", "")
+    out = []
+    n = len(s)
 
-#         Example:
-#             "5 - 3*X^1"
-#             → "5+-3*X^1"
-#         This allows safe splitting by "+"
-#     """
-#     expr = expr.replace(" ", "")
-#     expr = expr.replace("-", "+-")
-#     if expr.startswith("+-"):
-#         expr = expr[1:]
-#     return expr
+    for i, ch in enumerate(s):
+        out.append(ch)
+        if i + 1 < n and s[i + 1] == "X" and (ch.isdigit() or ch == "."):
+            out.append("*")
 
-
-# def parse_term(term):
-#     """
-#         Handles missing coefficients
-#         Handles missing powers
-#         Handles constants
-
-#         Example:
-#             "4*X^2" → (4.0, 2)
-#             "-X"    → (-1.0, 1)
-#             "5"     → (5.0, 0)
-
-#         Return:
-#             (coefficient, power)
-#     """
-
-#     if "X" not in term:
-#         return float(term), 0
-
-#     if "*" in term:
-#         coef = float(term.split("*")[0])
-#     else:
-#         coef = -1.0 if term.startswith("-X") else 1.0
-
-#     if "^" in term:
-#         power = int(term.split("^")[1])
-#     else:
-#         power = 1
-
-#     return coef, power
-
-
-# def parse_side(expr):
-#     """
-#         - Parse one side of the equation
-#         - Return polynomial dictionary
-
-#         example:
-#             "5 + 4*X - X^2"
-#             → {0: 5, 1: 4, 2: -1}
-
-#         Normalize, Split into terms, Parse each term and Merge same powers
-#     """
-
-#     terms = normalize(expr).split("+")
-#     poly = {}
-
-#     for term in terms:
-#         if term == "":
-#             continue
-#         coef, power = parse_term(term)
-#         poly[power] = poly.get(power, 0.0) + coef
-
-#     return poly
+    return "".join(out)
 
 def normalize(expr):
     expr = expr.replace(" ", "")
@@ -83,16 +30,43 @@ def normalize(expr):
         expr = expr[1:]
     return expr
 
+def parse_number(token):
+    """
+    Parse a coefficient that can be:
+      - integer: "4"
+      - float: "9.3"
+      - fraction: "5/2", "-5/2"
+
+    Returns:
+        float
+    Raises:
+        ValueError if invalid
+    """
+    if "/" in token:
+        if token.count("/") != 1:
+            raise ValueError("invalid fraction")
+
+        num_str, den_str = token.split("/")
+        if num_str == "" or den_str == "":
+            raise ValueError("invalid fraction")
+
+        den = float(den_str)
+        if abs(den) < 1e-12:
+            raise ValueError("division by zero in fraction")
+
+        return float(num_str) / den
+
+    return float(token)
 
 def parse_term(term):
     # constant term
     if "X" not in term:
-        return float(term), 0
+        return parse_number(term), 0
 
     # coefficient
     if "*" in term:
         coef_part, x_part = term.split("*")
-        coef = float(coef_part)
+        coef = parse_number(coef_part)
     else:
         if term.startswith("-X"):
             coef = -1.0
