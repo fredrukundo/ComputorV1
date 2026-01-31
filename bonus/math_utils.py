@@ -24,7 +24,7 @@ def to_fraction(x):
     num = int(x * precision)
     den = precision
 
-    g = gcd(abs(num), den)
+    g = gcd(abs_val(num), den)
     return num // g, den // g
 
 
