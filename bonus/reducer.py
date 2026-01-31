@@ -1,4 +1,5 @@
 # Reduce equation to = 0
+from math_utils import abs_val
 
 def reduce_equation(left, right):
     """
@@ -14,7 +15,7 @@ def reduce_equation(left, right):
 
     cleaned = {}
     for p, c in result.items():
-        if abs(c) > 1e-10:
+        if abs_val(c) > 1e-10:
             cleaned[p] = c
 
     if not cleaned:
@@ -41,7 +42,7 @@ def format_number(n):
             4.0 = "4"
             -9.3 = "-9.3"
     """
-    if abs(n - int(n)) < 1e-10:
+    if abs_val(n - int(n)) < 1e-10:
         return str(int(n))
     return str(n)
 
@@ -60,11 +61,11 @@ def format_reduced(poly):
         coef = poly[power]
 
         # Skip zero coefficients (shouldn't happen after reduction, but safe)
-        if abs(coef) < 1e-10:
+        if abs_val(coef) < 1e-10:
             continue
 
         # Format coefficient
-        coef_str = format_number(abs(coef))
+        coef_str = format_number(abs_val(coef))
         if coef_str == "1" and power != 0:
             coef_str = ""  # omit 1 in front of X
 
@@ -81,9 +82,12 @@ def format_reduced(poly):
             parts.append(f"- {term}")
         else:
             parts.append(f"+ {term}")
+    
+    if not parts:
+        return "0 = 0"
 
     # Remove leading "+"
-        if parts[0].startswith("+ "):
-            parts[0] = parts[0][2:]
+    if parts[0].startswith("+ "):
+        parts[0] = parts[0][2:]
 
     return " ".join(parts) + " = 0"
