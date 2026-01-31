@@ -42,26 +42,10 @@ def gcd(a, b):
         a, b = b, a % b
     return a
 
-
 def to_fraction(x):
-    """
-    Convert a floating-point number into fraction.
+    precision = 1000000
+    num = int(x * precision)
+    den = precision
 
-    This function is mainly intended for the -delta (complex numbers),
-    allowing exact display of solutions such as:
-        -1/5 + 2i/5
-    """
-    precision = 1e-6
-    sign = -1 if x < 0 else 1
-    x = abs_val(x)
-
-    numerator = x
-    denominator = 1
-
-    while abs_val(numerator - round(numerator)) > precision:
-        numerator *= 10
-        denominator *= 10
-
-    numerator = int(round(numerator))
-    g = gcd(numerator, denominator)
-    return sign * (numerator // g), denominator // g
+    g = gcd(abs_val(num), den)
+    return num // g, den // g
