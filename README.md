@@ -260,7 +260,7 @@ The **degree** is the highest exponent.
 ## 2️⃣ Discriminant
 
 \[
-\Delta = b^2 - 4ac
+    Delta = b^2 - 4ac
 \]
 
 - Δ > 0 → Two real roots  
