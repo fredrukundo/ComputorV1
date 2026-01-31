@@ -1,33 +1,9 @@
 def abs_val(x):
-    """
-    Compute the absolute value of a number.
-
-    Args:
-        x (int | float): The input number.
-
-    Returns:
-        int | float: x if x is positive or zero, otherwise -x.
-
-    This function replaces the built-in abs() to comply
-    with the project restriction of not using math libraries.
-    """
     return x if x >= 0 else -x
 
 
 def sqrt_newton(n, precision=1e-10):
     """
-    Compute the square root of a non-negative number using
-    Newton's (Babylonian) method.
-
-    Args:
-        n (float): The number whose square root is computed.
-        precision (float): The stopping threshold for convergence.
-
-    Returns:
-        float | None:
-            - The square root of n if n >= 0
-            - None if n is negative
-
     This function is used to compute the square root of the
     discriminant when solving second-degree equations.
     """
@@ -48,6 +24,7 @@ def gcd(a, b):
     """
     Compute the greatest common divisor (GCD) of two integers
     using the Euclidean algorithm.
+    - gcd(a,b)= gcd(b,a mod b)
 
     Args:
         a (int): First integer.
@@ -57,7 +34,7 @@ def gcd(a, b):
         int: The greatest common divisor of a and b.
 
     This function is used to simplify fractions when displaying
-    exact or irreducible results.
+    exact results.
     """
     a = abs_val(a)
     b = abs_val(b)
@@ -68,16 +45,9 @@ def gcd(a, b):
 
 def to_fraction(x):
     """
-    Convert a floating-point number into an irreducible fraction.
+    Convert a floating-point number into fraction.
 
-    Args:
-        x (float): The floating-point number to convert.
-
-    Returns:
-        tuple[int, int]: A tuple (numerator, denominator) representing
-        the irreducible fraction.
-
-    This function is mainly intended for the bonus part of the project,
+    This function is mainly intended for the -delta (complex numbers),
     allowing exact display of solutions such as:
         -1/5 + 2i/5
     """
