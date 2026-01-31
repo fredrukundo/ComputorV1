@@ -1,4 +1,5 @@
 # Reduce equation to = 0
+from math_utils import abs_val
 
 def reduce_equation(left, right):
     """
@@ -26,7 +27,7 @@ def reduce_equation(left, right):
 
     cleaned = {}
     for p, c in result.items():
-        if abs(c) > 1e-10:
+        if abs_val(c) > 1e-10:
             cleaned[p] = c
 
     if not cleaned:
@@ -95,7 +96,7 @@ def format_reduced(poly):
 
     for power in sorted(poly.keys()):
         coef = poly[power]
-        coef_str = format_number(abs(coef))
+        coef_str = format_number(abs_val(coef))
 
         if coef < 0:
             parts.append(f"- {coef_str} * X^{power}")
