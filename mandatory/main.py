@@ -6,7 +6,7 @@ from solver import solve_degree_0, solve_degree_1, solve_degree_2
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python3 computor.py \"equation\"")
+        print("Usage: python3 main.py \"equation\"")
         return
 
     equation = sys.argv[1]
