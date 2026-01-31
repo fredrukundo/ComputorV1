@@ -73,7 +73,7 @@ def format_number(n):
         4.0   → "4"
         -9.3  → "-9.3"
     """
-    if abs(n - int(n)) < 1e-10:
+    if abs_val(n - int(n)) < 1e-10:
         return str(int(n))
     return str(n)
 
