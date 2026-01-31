@@ -314,50 +314,6 @@ The program guarantees:
 
 ---
 
-# 🎓 Defense Preparation
-
-If evaluator asks:
-
-**Q: Why separate mandatory and bonus?**  
-Mandatory must be perfect independently before bonus is evaluated.
-
-**Q: Why custom square root?**  
-Subject forbids direct `math.sqrt`.
-
-**Q: How do you avoid floating precision issues?**  
-Using small tolerance (`1e-10`) and controlled fraction conversion.
-
-**Q: Why not always convert to fraction?**  
-Irrational numbers must remain decimal; only rational numbers are simplified.
-
-**Q: How do you prevent infinite loops?**  
-Bounded Newton iterations and safe numeric thresholds.
-
----
-
-# 🧪 Full Evaluation Script
-
-Run these during defense:
-
-```bash
-# Mandatory tests
-python3 main.py "5 * X^0 + 4 * X^1 - 9.3 * X^2 = 1 * X^0"
-python3 main.py "42 * X^0 = 42 * X^0"
-python3 main.py "4 * X^0 = 8 * X^0"
-python3 main.py "1 * X^2 - 2 * X^1 + 1 * X^0 = 0"
-python3 main.py "1 * X^2 + 1 * X^0 = 0"
-python3 main.py "1 * X^3 + 1 * X^0 = 0"
-
-# Bonus tests
-python3 main.py "2X + 1 = 0"
-python3 main.py "5/2 * X^0 = 1"
-python3 main.py "X^2 + 1 = 0"
-python3 main.py "5 + X^2 = X^2"
-python3 main.py "5 + Y = 0"
-```
-
----
-
 # 🏁 Conclusion
 
 ComputorV1 is not just a formula implementation.
@@ -373,6 +329,4 @@ It demonstrates:
 - Mathematical rigor
 
 ---
-
-**Author:** Fred Rukundo  
 42 Network — ComputorV1 Project
