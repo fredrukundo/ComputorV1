@@ -1,4 +1,4 @@
-from math_utils import sqrt_newton, to_fraction
+from math_utils import sqrt_newton, to_fraction, abs_val
 
 
 def format_float(x):
@@ -48,6 +48,9 @@ def solve_degree_1(a, b):
     Returns:
         str: Solution message with the value of X.
     """
+    if abs_val(a) < 1e-10:
+        # equation becomes b = 0
+        return solve_degree_0(b)
     x = -b / a
     return f"The solution is:\n{x}"
 
@@ -68,6 +71,9 @@ def solve_degree_2(a, b, c):
     Returns:
         str: Solution message with real or complex solutions.
     """
+    if abs_val(a) < 1e-10:
+        return solve_degree_1(b,c)
+    
     delta = b * b - 4 * a * c
 
     if delta > 0:
