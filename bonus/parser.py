@@ -96,57 +96,39 @@ def parse_side(expr):
     return poly
 
 def validate_equation(eq: str) -> None:
+    """
+    validation for polynomial equation.
+
+    Raises ValueError if invalid.
+    """
+
     if not isinstance(eq, str) or not eq.strip():
         raise ValueError("empty equation")
 
-    eq = eq.replace(" ", "")
-
-    # exactly one '='
+    # Must contain exactly one '='
     if eq.count("=") != 1:
         raise ValueError("equation must contain exactly one '='")
 
+    # Allowed characters
+    allowed = set("0123456789X+-*/.^= ")
+
+    for ch in eq:
+        if ch not in allowed:
+            raise ValueError(f"invalid character: '{ch}'")
+
+    # Invalid variable (only uppercase X allowed)
+    if "x" in eq:
+        raise ValueError("invalid variable (use uppercase X only)")
+
+    # Invalid operator sequences
+    compact = eq.replace(" ", "")
+    if "++" in compact or "--" in compact:
+        raise ValueError("invalid operator sequence")
+
+    if "**" in compact or "^^" in compact:
+        raise ValueError("invalid power syntax")
+
+    # Cannot start or end with '='
     left, right = eq.split("=")
-    if left == "" or right == "":
-        raise ValueError("missing left or right side")
-
-    # reject alternative power syntaxes
-    if "**" in eq or "^^" in eq:
-        raise ValueError("invalid power syntax (use '^')")
-
-    # allow only digits, X, operators, dot, caret
-    allowed = set("0123456789X+-*/.^")
-    bad = {ch for ch in eq if ch not in allowed}
-    if bad:
-        raise ValueError(f"invalid character(s): {''.join(sorted(bad))}")
-
-    if "Y" in eq or "Z" in eq:
-        raise ValueError("invalid variable (only X is allowed)")
-
-    if "XX" in eq:
-        raise ValueError("invalid variable usage")
-
-    forbidden_pairs = ["++", "+*", "+/", "+^",
-                       "-*", "-/", "-^",
-                       "*+", "**", "*/", "*^",
-                       "/+", "/*", "//", "/^",
-                       "^+", "^*", "^/", "^^"]
-    for p in forbidden_pairs:
-        if p in eq:
-            raise ValueError(f"invalid operator sequence: '{p}'")
-
-    i = 0
-    while i < len(eq):
-        if eq[i] == "^":
-            if i == len(eq) - 1:
-                raise ValueError("missing exponent after '^'")
-            j = i + 1
-            if eq[j] == "-":
-                j += 1
-            if j == len(eq) or not eq[j].isdigit():
-                raise ValueError("exponent after '^' must be an integer")
-            while j < len(eq) and eq[j].isdigit():
-                j += 1
-            i = j
-        else:
-            i += 1
-
+    if not left.strip() or not right.strip():
+        raise ValueError("missing expression on one side")
